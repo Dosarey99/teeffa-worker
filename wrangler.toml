@@ -5,12 +5,7 @@ compatibility_flags = ["nodejs_compat"]
 
 [[kv_namespaces]]
 binding = "PROJECTS_KV"
-id = "54563158f0c14b11b2e8a52135e63339"
-preview_id = "f931b30368774ab58e4b0968344c318b"
+id = "f931b30368774ab58e4b0968344c318b"
+
 [vars]
 APP_ENV = "production"
-
-# Secrets (set via: wrangler secret put ADMIN_USER, etc.)
-# ADMIN_USER
-# ADMIN_PASSWORD
-# TEEFFA_TOKEN
