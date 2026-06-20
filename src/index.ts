@@ -144,10 +144,11 @@ export default {
 
       const projects = await listProjects(env);
       const total = projects.length;
-      const passCount = projects.filter((p) => p.decision === "PASS").length;
-      const warnCount = projects.filter((p) => p.decision === "WARNING").length;
-      const failCount = projects.filter((p) => p.decision === "FAIL").length;
-      const totalValue = projects.reduce((s, p) => s + p.final_price_sar, 0);
+      const passCount = projects.filter((p) => p.rules.decision === "PASS").length;
+      const warnCount = projects.filter((p) => p.rules.decision === "WARNING").length;
+      const failCount = projects.filter((p) => p.rules.decision === "FAIL").length;
+      const totalValue = projects.reduce((s, p) => s + p.pricing.summary.final_price_sar, 0);
+      const totalProfit = projects.reduce((s, p) => s + p.pricing.summary.profit_sar, 0);
 
       return json({
         total_projects: total,
@@ -155,7 +156,7 @@ export default {
         warning_count: warnCount,
         fail_count: failCount,
         total_quoted_value_sar: Math.round(totalValue * 100) / 100,
-        expected_profit_sar: Math.round(totalValue * 0.20 * 100) / 100,
+        expected_profit_sar: Math.round(totalProfit * 100) / 100,
         recent_projects: projects.slice(0, 5),
       });
     }

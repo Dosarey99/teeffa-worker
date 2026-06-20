@@ -31,9 +31,12 @@ export async function saveProject(env: Env, report: QuoteReport): Promise<void> 
   await env.PROJECTS_KV.put(INDEX_KEY, JSON.stringify(index));
 }
 
-export async function listProjects(env: Env): Promise<ProjectMeta[]> {
+export async function listProjects(env: Env): Promise<QuoteReport[]> {
   const raw = await env.PROJECTS_KV.get(INDEX_KEY);
-  return raw ? JSON.parse(raw) : [];
+  if (!raw) return [];
+  const index: ProjectMeta[] = JSON.parse(raw);
+  const results = await Promise.all(index.map((m) => getProject(env, m.id)));
+  return results.filter((p): p is QuoteReport => p !== null);
 }
 
 export async function getProject(env: Env, id: string): Promise<QuoteReport | null> {
